@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>东康中学608班 - 登录</title>
+    <style>
+        body {
+            font-family: "楷体", serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .login-box {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white；
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h2>608班专属入口</h2>
+        <input type="password" id="password" placeholder="请输入密码">
+        <br>
+        <button onclick="checkPassword()">进入班级</button>
+    </div>
+
+    <script>
+        function checkPassword() {
+            // 在这里设置你的密码，比如 123456
+            var correctPassword = "123456"; 
+            var inputPassword = document.getElementById("password").value;
+            
+            if (inputPassword === correctPassword) {
+                // 密码正确，跳转到你的第二个页面
+                window.location.href = "dongkangzhongxue608ban.html";
+            } else {
+                alert("密码错误，请重新输入！");
+            }
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的网站 - 封页</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "楷体", serif;
+            background-image: url("背景图片.jpg"); 
+            background-size: cover;
+            background-position: center center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            color: pink;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        h1 { font-size: 3em; margin-bottom: 0.2em; }
+        p { font-size: 1.5em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>欢迎来到东康中学608班</h1>
+        <p>我们的专属小天地</p >
+    </div>
+</body>
+</html>
