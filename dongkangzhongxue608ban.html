@@ -2,33 +2,145 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>我的网站 - 封页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>608班专属信件大厅</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "楷体", serif;
-            background-image: url("背景图片.jpg"); 
-            background-size: cover;
-            background-position: center center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+        /* 1. 修改了 body 样式：去掉了固定高度和垂直居中，让页面能随着内容变长 */
+        body { 
+            font-family: 'Microsoft YaHei', sans-serif; 
+            background-image: url('背景图片.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; /* 最小高度为屏幕高度，内容多了会自动撑开 */
+            margin: 0; 
         }
-        .container {
-            text-align: center;
-            color: pink;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        
+        /* 2. 修改了 container 样式：修复了多余的等号，增加了上下边距 */
+        .container { 
+            background: rgba(255, 255, 255, 0.95); 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2); 
+            max-width: 600px; 
+            width: 90%; 
+            text-align: center; 
+            margin-top: 50px;    /* 顶部留出空间 */
+            margin-bottom: 50px; /* 底部留出空间，让长图有呼吸感 */
         }
-        h1 { font-size: 3em; margin-bottom: 0.2em; }
-        p { font-size: 1.5em; }
+
+        h1 { color: #ff6699; margin-bottom: 20px; }
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 15px; width: 80%; font-size: 16px; }
+        button { padding: 12px 30px; background-color: #ff6699; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: 0.3s; }
+        button:hover { background-color: #ff4d88; }
+        
+        .letter-content { 
+            display: none; 
+            text-align: left; 
+            line-height: 1.8; 
+            color: #333; 
+            font-size: 18px; 
+            margin-top: 20px; 
+            border-top: 1px dashed #ccc; 
+            padding-top: 20px; 
+        }
+        
+        /* 3. 专门给信件内容加的设置，确保长图能完整显示且自适应宽度，同时支持 \n 换行 */
+        #letter-body {
+            word-wrap: break-word; /* 允许长单词或长图自动换行/适应宽度 */
+            white-space: pre-wrap; /* 核心：保留信件里的换行符 \n */
+        }
+        
+        /* 重点：让信件里的图片宽度100%适应屏幕，高度自动 */
+        #letter-body img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px; /* 给图片加一点圆角更好看 */
+            margin: 20px 0; /* 给图片上下留点间距 */
+        }
+
+        .back-btn { margin-top: 20px; background-color: #999; font-size: 14px; padding: 8px 20px;}
+        .back-btn:hover { background-color: #666; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>欢迎来到东康中学608班</h1>
-        <p>我们的专属小天地</p >
+        <!-- 1. 输入密码的区域 -->
+        <div id="login-area">
+            <h1> 608班专属信件大厅</h1>
+            <p>请输入你的专属密码，查收刘明厚给你的专属信件：</p >
+            <input type="password" id="pwd-input" placeholder="输入密码...">
+            <br>
+            <button onclick="openLetter()">打开信件</button>
+            <p id="error-msg" style="color: red; margin-top: 10px; display: none;">密码不对哦，请再试一次！</p >
+        </div>
+
+        <!-- 2. 显示信件的区域 -->
+        <div id="letter-area" class="letter-content">
+            <h2 id="letter-title"></h2>
+            <div id="letter-body"></div> <!-- ️ 使用 div 以支持图片和换行 -->
+            <button class="back-btn" onclick="goBack()">返回大厅</button>
+        </div>
     </div>
+
+    <script>
+        // ==========================================
+        //  核心秘籍在这里！你只需要修改下面这个列表 
+        // ==========================================
+        const letters = [
+            // 格式：{ pwd: "密码", title: "信件标题", body: "信件内容" }
+            { 
+                pwd: "yanlaoshi123456", 
+                title: "致 严老师", 
+                body: "敬爱的严老师：\n见字如晤，展信舒颜。\n提笔给您写这封信的时候，我正坐在书桌前，窗外是安静的夜色，晚风偶尔吹过，树叶沙沙作响。在这个静谧的时刻，我的脑海里忽然浮现出您站在讲台上的样子。以前总觉得您的目光像探照灯一样，谁要是敢开小差，绝对逃不过您的眼睛。现在回想起来，那些画面就像老电影一样，一帧一帧地在脑海里回放，清晰而又温暖。\n以前上您的课，我总觉得您特别严厉。您对我们的要求总是那么高，背书必须一字不差，作文必须字斟句酌，连写字的笔画都不允许有丝毫马虎。那时候我有点害怕您，甚至有点泄气，觉得语文好像怎么努力都达不到您的标准，像握在手里的沙子，越想用力，流失得越快。\n但您从来没有因为我们\"抓不住\"而放弃我们。您总是说，语文就像种树，不是一天两天就能看到结果的，但只要每天浇一点水，总有一天会长成大树。您教我们读古诗，不是让我们死记硬背，而是带我们想象诗里的画面。您说，\"大漠孤烟直\"不只是七个字，而是站在沙漠里，看着一缕烟直直地升上天空的那种孤独和辽阔。那一刻，我忽然觉得，原来文字是有温度的，是可以让人\"看见\"的。\n您还教我们写作文，总说不要为了凑字数而写，要写自己真正想说的话。有一次我写了一篇关于\"放学路上的风景\"的作文，您在我的本子上写了一句话：\"你写的不是风景，是你心里的安静。\"那句话我一直记得。原来，写作不是为了讨好别人，而是为了和自己对话。\n老师，其实我一直想跟您说，谢谢您。今年我留级了，留在了初二，看着曾经朝夕相处的同学们迈向了初三，说实话，一开始我心里挺失落的，觉得好像只有自己被留在了原地。但重新坐在初二的教室里，翻开曾经学过的那些课文，我才真正体会到您当年教给我们的那些东西，是多么珍贵。以前觉得您严厉，现在才明白，正是因为您的严厉，我才没有在最该打基础的时候偷懒。谢谢您在我读不懂文章的时候，一遍遍带我重新读；谢谢您在我作文写得乱七八糟的时候，没有批评我，而是帮我一句一句地改。\n现在回想起来，您教给我们的，不只是怎么读一篇文章、怎么写一段话，而是怎么用心去感受生活，怎么用文字表达自己的想法。这些，比任何分数都重要。以后不管走到哪里，我都会记得您说过的那句话：\"文字是有温度的。\"我会继续读下去，写下去，用您教我的方式，去感受这个世界。\n谢谢您，严老师。愿您永远健康、快乐，愿您的课堂上，永远有那么多双认真听讲的年轻眼睛。\n您的学生：刘明厚\n2026年9月13日"
+            },
+            { 
+                pwd: "laoshi2", 
+                title: "致 数学老师", 
+                body: "亲爱的数学老师：\n虽然函数和几何有时让我头疼，但谢谢您从未放弃过我。您辛苦了！" 
+            },
+            
+            // 下面是给同学的示例
+            { 
+                pwd: "zhangsan", 
+                title: "致 张三", 
+                body: "张三：\n还记得我们一起在操场跑步的日子吗？祝你未来前程似锦，常联系！" 
+            },
+            { 
+                pwd: "lisi", 
+                title: "致 李四", 
+                body: "李四：\n你是班里最幽默的人，谢谢你给我带来的欢乐。毕业快乐！" 
+            },
+            
+            // 你可以在这里继续往下加，想加多少个都可以！
+        ];
+
+        // 下面的代码是自动运行的魔法，不需要修改
+        function openLetter() {
+            const pwd = document.getElementById('pwd-input').value.trim();
+            const found = letters.find(l => l.pwd === pwd);
+            
+            if (found) {
+                document.getElementById('letter-title').innerText = found.title;
+                
+                // ️ 核心修改：使用 innerHTML 配合 CSS 的 white-space: pre-wrap，这样 \n 换行和图片都能正常显示！
+                document.getElementById('letter-body').innerHTML = found.body; 
+                
+                document.getElementById('login-area').style.display = 'none';
+                document.getElementById('letter-area').style.display = 'block';
+                document.getElementById('error-msg').style.display = 'none';
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            document.getElementById('login-area').style.display = 'block';
+            document.getElementById('letter-area').style.display = 'none';
+            document.getElementById('pwd-input').value = '';
+        }
+    </script>
 </body>
 </html>
